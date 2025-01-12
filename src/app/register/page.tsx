@@ -58,7 +58,7 @@ export default function register() {
           Já tem uma conta?
           <a
             href="/login"
-            className="my-2 font-medium underline text-white ml-1 hover:text-[#1ED760]"
+            className="my-2 font-medium underline text-white ml-1"
           >
             Faça login aqui.
           </a>
