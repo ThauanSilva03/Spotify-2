@@ -13,6 +13,8 @@ import {
 } from "lucide-react";
 import Button from "./components/library/button";
 import React, { useState, useRef, useEffect } from "react";
+import MainCard from "./components/mainContent/mainCard";
+import MediumCard from "./components/mainContent/mediumCard";
 
 export default function Home() {
   const [hasShadow, setHasShadow] = useState(false);
@@ -114,7 +116,69 @@ export default function Home() {
             ))}
           </div>
         </div>
-        <div className="group relative max-h-[800px] w-[53%] overflow-hidden rounded-lg bg-[#121212]"></div>
+        <div className="group max-h-[800px] w-[53%] overflow-hidden rounded-lg bg-[#121212]">
+          <div className=" overflow-y-auto scrollbar scrollbar-thumb-white/0 group-hover:scrollbar-thumb-white/70 h-full py-4 pl-8">
+            <div className="pr-8">
+              <div className="flex gap-2 py-2 ">
+                <Button>Tudo</Button>
+                <Button>Música</Button>
+                <Button>Podcasts</Button>
+              </div>
+              <div className="grid grid-cols-4">
+                {Array.from({ length: 8 }, (_, i) => (
+                  <CardMusic key={i} />
+                ))}
+              </div>
+            </div>
+            <div>
+              <div className="pt-4 font-bold flex justify-between pr-8">
+                <h2 className="text-xl">Feitos para William</h2>
+                <h4 className="text-sm">Mostrar tudo</h4>
+              </div>
+              <div className="flex gap-3 overflow-auto scrollbar-none py-2">
+                {Array.from({ length: 10 }, (_, i) => (
+                  <MainCard key={i} />
+                ))}
+              </div>
+              <div className="pt-4 font-bold flex justify-between pr-8">
+                <h2 className="text-xl">Suas músicas estão com saudades</h2>
+                <h4 className="text-sm">Mostrar tudo</h4>
+              </div>
+              <div className="flex gap-3 overflow-auto scrollbar-none py-3">
+                {Array.from({ length: 10 }, (_, i) => (
+                  <MainCard key={i} />
+                ))}
+              </div>
+              <div className="pt-4 font-bold flex justify-between pr-8">
+                <h2 className="text-xl">Tocados recentemente</h2>
+                <h4 className="text-sm">Mostrar tudo</h4>
+              </div>
+              <div className="flex gap-3 overflow-auto scrollbar-none py-3">
+                {Array.from({ length: 10 }, (_, i) => (
+                  <MediumCard key={i} />
+                ))}
+              </div>
+              <div className="pt-4 font-bold flex justify-between pr-8">
+                <h2 className="text-xl">O melhor de cada artista</h2>
+                <h4 className="text-sm">Mostrar tudo</h4>
+              </div>
+              <div className="flex gap-3 overflow-auto scrollbar-none py-3">
+                {Array.from({ length: 10 }, (_, i) => (
+                  <MainCard key={i} />
+                ))}
+              </div>
+              <div className="pt-4 font-bold flex justify-between pr-8">
+                <h2 className="text-xl">Os maiores hits do momento</h2>
+                <h4 className="text-sm">Mostrar tudo</h4>
+              </div>
+              <div className="flex gap-3 overflow-auto scrollbar-none py-3">
+                {Array.from({ length: 10 }, (_, i) => (
+                  <MainCard key={i} />
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
         <div className="group relative max-h-[800px] w-[25%] overflow-hidden rounded-lg bg-[#121212]"></div>
       </div>
     </div>
