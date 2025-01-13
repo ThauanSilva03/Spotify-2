@@ -79,7 +79,7 @@ export default function Home() {
         </div>
       </header>
       <div className="flex flex-row w-full gap-2 px-3">
-        <div className="group relative w-[25%] overflow-hidden rounded-lg bg-[#121212]">
+        <div className="group relative w-[22%] overflow-hidden rounded-lg bg-[#121212]">
           <div
             className={`sticky top-0 z-10 w-full max-h-[120px] bg-[#121212] text-[#B3B3B3] px-6 pt-6 pb-3 transition-shadow duration-300 ${
               hasShadow ? "shadow-[0_10px_15px_rgba(0,0,0,0.7)]" : ""
@@ -107,15 +107,15 @@ export default function Home() {
           </div>
           <div
             ref={scrollRef}
-            className="overflow-y-auto h-full p-4 scrollbar scrollbar-thumb-transparent group-hover:scrollbar-thumb-[#898989] max-h-[630px]"
+            className="overflow-y-auto h-full p-4 scrollbar scrollbar-thumb-transparent group-hover:scrollbar-thumb-[#898989] max-h-[680px]"
           >
             {Array.from({ length: 50 }, (_, i) => (
               <CardMusic key={i} />
             ))}
           </div>
         </div>
-        <div className="group relative max-h-[750px] w-[50%] overflow-hidden rounded-lg bg-[#121212]"></div>
-        <div className="group relative max-h-[750px] w-[25%] overflow-hidden rounded-lg bg-[#121212]"></div>
+        <div className="group relative max-h-[800px] w-[53%] overflow-hidden rounded-lg bg-[#121212]"></div>
+        <div className="group relative max-h-[800px] w-[25%] overflow-hidden rounded-lg bg-[#121212]"></div>
       </div>
     </div>
   );
