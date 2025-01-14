@@ -9,8 +9,11 @@ import {
   GalleryVerticalEnd,
   Library,
   LucideHouse,
+  Play,
   Plus,
   Search,
+  SkipBack,
+  SkipForward,
   SquarePlay,
 } from "lucide-react";
 import Button from "./components/library/button";
@@ -197,7 +200,24 @@ export default function Home() {
         <div className="w-[15%] h-full">
           <CardMusic />
         </div>
-        <div className="bg-slate-100 w-[40%] h-full"></div>
+        <div className="w-[40%] h-full flex flex-col justify-center items-center gap-y-2">
+          <div className="flex items-center gap-x-4">
+            <button>
+              <SkipBack />
+            </button>
+            <button>
+              <Play />
+            </button>
+            <button>
+              <SkipForward />
+            </button>
+          </div>
+          <div className="w-full flex flex-row items-center gap-x-2">
+            <div className="text-xs">0:00</div>
+            <div className="bg-slate-50 h-1 rounded-full"></div>
+            <div className="text-xs">3:36</div>
+          </div>
+        </div>
         <div className="w-[15%] h-full flex items-center gap-2">
           <button onClick={() => setShowLeft(!showLeft)}>
             <SquarePlay />
