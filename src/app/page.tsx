@@ -4,19 +4,23 @@ import Image from "next/image";
 import CardMusic from "./components/library/cardMusic";
 import {
   ArrowRight,
+  BanIcon,
   Bell,
   GalleryVerticalEnd,
   Library,
   LucideHouse,
   Plus,
   Search,
+  SquarePlay,
 } from "lucide-react";
 import Button from "./components/library/button";
 import React, { useState, useRef, useEffect } from "react";
 import MainCard from "./components/mainContent/mainCard";
 import MediumCard from "./components/mainContent/mediumCard";
+import MixCard from "./components/mainContent/mixCard";
 
 export default function Home() {
+  const [showLeft, setShowLeft] = useState(false);
   const [hasShadow, setHasShadow] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -116,7 +120,7 @@ export default function Home() {
             ))}
           </div>
         </div>
-        <div className="group max-h-[800px] w-[53%] overflow-hidden rounded-lg bg-[#121212]">
+        <div className="group max-h-[800px] w-[53%] overflow-hidden rounded-lg bg-[#121212] flex-1">
           <div className=" overflow-y-auto scrollbar scrollbar-thumb-white/0 group-hover:scrollbar-thumb-white/70 h-full py-4 pl-8">
             <div className="pr-8">
               <div className="flex gap-2 py-2 ">
@@ -126,7 +130,11 @@ export default function Home() {
               </div>
               <div className="grid grid-cols-4">
                 {Array.from({ length: 8 }, (_, i) => (
-                  <CardMusic key={i} />
+                  <MixCard
+                    pictureSize={showLeft ? 60 : 90}
+                    textSize={showLeft ? 120 : 150}
+                    key={i}
+                  />
                 ))}
               </div>
             </div>
@@ -179,7 +187,31 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="group relative max-h-[800px] w-[25%] overflow-hidden rounded-lg bg-[#121212]"></div>
+        <div
+          className={`group relative max-h-[800px] w-[25%] overflow-hidden rounded-lg bg-[#121212] ${
+            showLeft ? "" : "hidden"
+          }`}
+        ></div>
+      </div>
+      <div className="w-screen pt-2 px-4 h-20 flex justify-between flex-1 items-center">
+        <div className="w-[15%] h-full">
+          <CardMusic />
+        </div>
+        <div className="bg-slate-100 w-[40%] h-full"></div>
+        <div className="w-[15%] h-full flex items-center gap-2">
+          <button onClick={() => setShowLeft(!showLeft)}>
+            <SquarePlay />
+          </button>
+          <button>
+            <BanIcon />
+          </button>
+          <button>
+            <BanIcon />
+          </button>
+          <button>
+            <BanIcon />
+          </button>
+        </div>
       </div>
     </div>
   );
