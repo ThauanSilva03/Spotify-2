@@ -22,6 +22,7 @@ import MainCard from "./components/mainContent/mainCard";
 import MediumCard from "./components/mainContent/mediumCard";
 import MixCard from "./components/mainContent/mixCard";
 import PlayingNowCard from "./components/mainContent/playingNowCard";
+import MusicDetails from "./components/musicDetails/musicDetails";
 
 export default function Home() {
   const [showLeft, setShowLeft] = useState(false);
@@ -192,10 +193,20 @@ export default function Home() {
           </div>
         </div>
         <div
-          className={`group relative max-h-[800px] w-[25%] overflow-hidden rounded-lg bg-[#121212] ${
+          className={`group relative flex flex-col max-h-[800px] w-[25%] overflow-hidden rounded-lg bg-[#121212] p-5 pb-0 gap-y-2 ${
             showLeft ? "" : "hidden"
           }`}
-        ></div>
+        >
+          <div className="overflow-y-auto scrollbar scrollbar-thumb-white/0 group-hover:scrollbar-thumb-white/70 h-full">
+            <MusicDetails />
+            <div className="flex flex-col gap-y-4">
+              <div className="h-52 w-full bg-[#1F1F1F] text-black rounded-lg"></div>
+              <div className="h-80 w-full bg-[#1F1F1F] text-black rounded-lg"></div>
+              <div className="h-72 w-full bg-[#1F1F1F] text-black rounded-lg"></div>
+              <div className="h-64 w-full bg-[#1F1F1F] text-black rounded-lg"></div>
+            </div>
+          </div>
+        </div>
       </div>
       <div className="w-screen pt-2 px-4 h-20 flex justify-between flex-1 items-center">
         <div className="w-[15%] h-full">
