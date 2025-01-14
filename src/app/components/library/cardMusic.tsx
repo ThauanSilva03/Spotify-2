@@ -9,7 +9,7 @@ export default function CardMusic() {
   return (
     <SkeletonTheme baseColor="#474648" highlightColor="#5c5c5c">
       <button
-        className="w-full p-0"
+        className="w-full px-2 pr-0"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
