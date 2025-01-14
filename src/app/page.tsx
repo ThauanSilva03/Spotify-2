@@ -21,6 +21,7 @@ import React, { useState, useRef, useEffect } from "react";
 import MainCard from "./components/mainContent/mainCard";
 import MediumCard from "./components/mainContent/mediumCard";
 import MixCard from "./components/mainContent/mixCard";
+import PlayingNowCard from "./components/mainContent/playingNowCard";
 
 export default function Home() {
   const [showLeft, setShowLeft] = useState(false);
@@ -116,7 +117,7 @@ export default function Home() {
           </div>
           <div
             ref={scrollRef}
-            className="overflow-y-auto h-full p-4 scrollbar scrollbar-thumb-transparent group-hover:scrollbar-thumb-[#898989] max-h-[680px]"
+            className="overflow-y-auto h-full pr-0 scrollbar scrollbar-thumb-transparent group-hover:scrollbar-thumb-[#898989] max-h-[680px]"
           >
             {Array.from({ length: 50 }, (_, i) => (
               <CardMusic key={i} />
@@ -198,7 +199,7 @@ export default function Home() {
       </div>
       <div className="w-screen pt-2 px-4 h-20 flex justify-between flex-1 items-center">
         <div className="w-[15%] h-full">
-          <CardMusic />
+          <PlayingNowCard />
         </div>
         <div className="w-[40%] h-full flex flex-col justify-center items-center gap-y-2">
           <div className="flex items-center gap-x-4">
@@ -214,7 +215,7 @@ export default function Home() {
           </div>
           <div className="w-full flex flex-row items-center gap-x-2">
             <div className="text-xs">0:00</div>
-            <div className="bg-slate-50 h-1 rounded-full"></div>
+            <div className="bg-slate-50 h-1 rounded-full w-full"></div>
             <div className="text-xs">3:36</div>
           </div>
         </div>
