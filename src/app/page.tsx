@@ -148,7 +148,7 @@ export default function Home() {
                 <h4 className="text-sm">Mostrar tudo</h4>
               </div>
               <div className="flex gap-3 overflow-auto scrollbar-none py-2">
-                {Array.from({ length: 10 }, (_, i) => (
+                {Array.from({ length: 15 }, (_, i) => (
                   <MainCard key={i} />
                 ))}
               </div>
@@ -157,7 +157,7 @@ export default function Home() {
                 <h4 className="text-sm">Mostrar tudo</h4>
               </div>
               <div className="flex gap-3 overflow-auto scrollbar-none py-3">
-                {Array.from({ length: 10 }, (_, i) => (
+                {Array.from({ length: 15 }, (_, i) => (
                   <MainCard key={i} />
                 ))}
               </div>
@@ -166,7 +166,7 @@ export default function Home() {
                 <h4 className="text-sm">Mostrar tudo</h4>
               </div>
               <div className="flex gap-3 overflow-auto scrollbar-none py-3">
-                {Array.from({ length: 10 }, (_, i) => (
+                {Array.from({ length: 20 }, (_, i) => (
                   <MediumCard key={i} />
                 ))}
               </div>
@@ -175,7 +175,7 @@ export default function Home() {
                 <h4 className="text-sm">Mostrar tudo</h4>
               </div>
               <div className="flex gap-3 overflow-auto scrollbar-none py-3">
-                {Array.from({ length: 10 }, (_, i) => (
+                {Array.from({ length: 15 }, (_, i) => (
                   <MainCard key={i} />
                 ))}
               </div>
