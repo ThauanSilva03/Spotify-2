@@ -6,9 +6,12 @@ import {
   ArrowRight,
   BanIcon,
   Bell,
+  Computer,
   GalleryVerticalEnd,
   Library,
+  ListMusic,
   LucideHouse,
+  MicVocal,
   Play,
   Plus,
   Search,
@@ -232,16 +235,20 @@ export default function Home() {
         </div>
         <div className="w-[15%] h-full flex items-center gap-2">
           <button onClick={() => setShowLeft(!showLeft)}>
-            <SquarePlay />
+            <SquarePlay
+              className={`h-5 w-5 text-[#B3B3B3] hover:text-white hover:scale-105 ${
+                showLeft ? "text-[#1dd35e] hover:text-[#1dd35e]" : ""
+              }`}
+            />
+          </button>
+          <button className="group">
+            <MicVocal className="h-5 w-5 text-[#B3B3B3] hover:text-white hover:scale-105" />
           </button>
           <button>
-            <BanIcon />
+            <ListMusic className="h-5 w-5 text-[#B3B3B3] hover:text-white hover:scale-105" />
           </button>
           <button>
-            <BanIcon />
-          </button>
-          <button>
-            <BanIcon />
+            <Computer className="h-5 w-5 text-[#B3B3B3] hover:text-white hover:scale-105" />
           </button>
         </div>
       </div>
