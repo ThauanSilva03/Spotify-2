@@ -4,7 +4,6 @@ import Image from "next/image";
 import CardMusic from "./components/library/cardMusic";
 import {
   ArrowRight,
-  BanIcon,
   Bell,
   Computer,
   GalleryVerticalEnd,
@@ -12,7 +11,6 @@ import {
   ListMusic,
   LucideHouse,
   MicVocal,
-  Play,
   Plus,
   Search,
   SkipBack,
@@ -220,8 +218,13 @@ export default function Home() {
             <button>
               <SkipBack />
             </button>
-            <button>
-              <Play />
+            <button className="bg-slate-50 p-2 rounded-full text-black flex items-center justify-center">
+              <Image
+                src="/mainIcons/playBlack.png"
+                alt=""
+                width={14}
+                height={14}
+              />
             </button>
             <button>
               <SkipForward />
