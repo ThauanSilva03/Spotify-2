@@ -24,6 +24,7 @@ import MediumCard from "./components/mainContent/mediumCard";
 import MixCard from "./components/mainContent/mixCard";
 import PlayingNowCard from "./components/mainContent/playingNowCard";
 import MusicDetails from "./components/musicDetails/musicDetails";
+import Topics from "./components/mainContent/topics";
 
 export default function Home() {
   const [showLeft, setShowLeft] = useState(false);
@@ -50,7 +51,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="w-screen h-screen flex flex-col">
+    <div className="w-screen h-screen flex flex-col overflow-y-hidden">
       <header className="px-4 flex justify-between py-2 items-center">
         <button className="pl-3">
           <Image
@@ -90,7 +91,7 @@ export default function Home() {
           </div>
         </div>
       </header>
-      <div className="flex flex-row w-full gap-2 px-3">
+      <div className="flex flex-row w-full gap-2 px-3 pb-20">
         <div className="group relative w-[22%] overflow-hidden rounded-lg bg-[#121212]">
           <div
             className={`sticky top-0 z-10 w-full max-h-[120px] bg-[#121212] text-[#B3B3B3] px-6 pt-6 pb-3 transition-shadow duration-300 ${
@@ -119,7 +120,7 @@ export default function Home() {
           </div>
           <div
             ref={scrollRef}
-            className="overflow-y-auto h-full pr-0 scrollbar scrollbar-thumb-transparent group-hover:scrollbar-thumb-[#898989] max-h-[680px]"
+            className="overflow-y-auto pr-0 scrollbar scrollbar-thumb-transparent group-hover:scrollbar-thumb-[#898989] max-h-[680px]"
           >
             {Array.from({ length: 50 }, (_, i) => (
               <CardMusic key={i} />
@@ -127,7 +128,7 @@ export default function Home() {
           </div>
         </div>
         <div className="group max-h-[800px] w-[53%] overflow-hidden rounded-lg bg-[#121212] flex-1">
-          <div className=" overflow-y-auto scrollbar scrollbar-thumb-white/0 group-hover:scrollbar-thumb-white/70 h-full py-4 pl-8">
+          <div className="overflow-y-auto scrollbar scrollbar-thumb-white/0 group-hover:scrollbar-thumb-white/70 h-full py-4 pl-8">
             <div className="pr-8">
               <div className="flex gap-2 py-2 ">
                 <Button>Tudo</Button>
@@ -145,46 +146,31 @@ export default function Home() {
               </div>
             </div>
             <div>
-              <div className="pt-4 font-bold flex justify-between pr-8">
-                <h2 className="text-xl">Feitos para William</h2>
-                <h4 className="text-sm">Mostrar tudo</h4>
-              </div>
+              <Topics>Feitos para William</Topics>
               <div className="flex gap-3 overflow-auto scrollbar-none py-2">
                 {Array.from({ length: 15 }, (_, i) => (
                   <MainCard key={i} />
                 ))}
               </div>
-              <div className="pt-4 font-bold flex justify-between pr-8">
-                <h2 className="text-xl">Suas músicas estão com saudades</h2>
-                <h4 className="text-sm">Mostrar tudo</h4>
-              </div>
+              <Topics>Suas músicas estão com saudades</Topics>
               <div className="flex gap-3 overflow-auto scrollbar-none py-3">
                 {Array.from({ length: 15 }, (_, i) => (
                   <MainCard key={i} />
                 ))}
               </div>
-              <div className="pt-4 font-bold flex justify-between pr-8">
-                <h2 className="text-xl">Tocados recentemente</h2>
-                <h4 className="text-sm">Mostrar tudo</h4>
-              </div>
+              <Topics>Tocados recentemente</Topics>
               <div className="flex gap-3 overflow-auto scrollbar-none py-3">
                 {Array.from({ length: 20 }, (_, i) => (
                   <MediumCard key={i} />
                 ))}
               </div>
-              <div className="pt-4 font-bold flex justify-between pr-8">
-                <h2 className="text-xl">O melhor de cada artista</h2>
-                <h4 className="text-sm">Mostrar tudo</h4>
-              </div>
+              <Topics>O melhor de cada artista</Topics>
               <div className="flex gap-3 overflow-auto scrollbar-none py-3">
                 {Array.from({ length: 15 }, (_, i) => (
                   <MainCard key={i} />
                 ))}
               </div>
-              <div className="pt-4 font-bold flex justify-between pr-8">
-                <h2 className="text-xl">Os maiores hits do momento</h2>
-                <h4 className="text-sm">Mostrar tudo</h4>
-              </div>
+              <Topics>Os maiores hits do momento</Topics>
               <div className="flex gap-3 overflow-auto scrollbar-none py-3">
                 {Array.from({ length: 10 }, (_, i) => (
                   <MainCard key={i} />
@@ -209,8 +195,8 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="w-screen pt-2 px-4 h-20 flex justify-between flex-1 items-center">
-        <div className="w-[15%] h-full">
+      <div className="fixed bottom-0 bg-[#0A0A0A] left-0 right-0 py-2 px-4 h-20 flex justify-between items-center z-50">
+        <div className="w-[15%] h-full flex items-center">
           <PlayingNowCard />
         </div>
         <div className="w-[40%] h-full flex flex-col justify-center items-center gap-y-2">
@@ -239,9 +225,7 @@ export default function Home() {
         <div className="w-[15%] h-full flex items-center gap-2">
           <button onClick={() => setShowLeft(!showLeft)}>
             <SquarePlay
-              className={`h-5 w-5 text-[#B3B3B3] hover:text-white hover:scale-105 ${
-                showLeft ? "text-[#1dd35e] hover:text-[#1dd35e]" : ""
-              }`}
+              className={`h-5 w-5 text-[#B3B3B3] hover:text-white hover:scale-105`}
             />
           </button>
           <button className="group">
