@@ -23,7 +23,7 @@ export default function Login() {
   return (
     <div>
       <div className="h-full bg-gradient-to-b from-[#2A2A2A] to-[#000000] flex flex-col items-center justify-center p-8">
-        <div className="w-[40%] h-full py-6 bg-[#121212] rounded-lg flex flex-col items-center">
+        <div className="w-[740px] h-full py-6 bg-[#121212] rounded-lg flex flex-col items-center">
           <Image
             src="/icons/icon-spotify.svg"
             alt="Icone"
