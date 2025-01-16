@@ -21,15 +21,34 @@ import Button from "./components/library/button";
 import React, { useState, useRef, useEffect } from "react";
 import MainCard from "./components/mainContent/mainCard";
 import MediumCard from "./components/mainContent/mediumCard";
-import MixCard from "./components/mainContent/mixCard";
+// import MixCard from "./components/mainContent/mixCard";
 import PlayingNowCard from "./components/mainContent/playingNowCard";
 import MusicDetails from "./components/musicDetails/musicDetails";
 import Topics from "./components/mainContent/topics";
+import { getTrackAndArtist } from "./lib/fetchTracks";
+import MixCard from "./components/mainContent/mixCard";
 
 export default function Home() {
   const [showLeft, setShowLeft] = useState(false);
   const [hasShadow, setHasShadow] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [tracks, setTracks] = useState<
+    { trackName: string; artistName: string }[]
+  >([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchTracksData = async () => {
+      setIsLoading(true);
+      const endpoint =
+        "http://ws.audioscrobbler.com/2.0/?method=geo.gettoptracks&country=spain&api_key=d94d36ddf23800c1453b9a06a0c75315&format=json"; // Coloque seu endpoint aqui
+      const tracksData = await getTrackAndArtist(endpoint);
+      setTracks(tracksData);
+      setIsLoading(false);
+    };
+
+    fetchTracksData();
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -135,28 +154,63 @@ export default function Home() {
                 <Button>Música</Button>
                 <Button>Podcasts</Button>
               </div>
-              <div className="grid grid-cols-4">
-                {Array.from({ length: 8 }, (_, i) => (
-                  <MixCard
-                    pictureSize={showLeft ? 60 : 90}
-                    textSize={showLeft ? 120 : 150}
-                    key={i}
-                  />
-                ))}
+              <div className="grid grid-cols-4 gap-4">
+                {isLoading
+                  ? Array.from({ length: 8 }, (_, i) => (
+                      <MixCard
+                        pictureSize={showLeft ? 60 : 90}
+                        textSize={showLeft ? 120 : 150}
+                        key={i}
+                      />
+                    ))
+                  : tracks.slice(0, 8).map((track, index) => (
+                      <div key={index} className="bg-[#1F1F1F] p-4 rounded-lg">
+                        <h3 className="text-white font-bold">
+                          {track.trackName}
+                        </h3>
+                        <p className="text-[#AEAEAE]">{track.artistName}</p>
+                      </div>
+                    ))}
               </div>
             </div>
             <div>
               <Topics>Feitos para William</Topics>
               <div className="flex gap-3 overflow-auto scrollbar-none py-2">
-                {Array.from({ length: 15 }, (_, i) => (
-                  <MainCard key={i} />
-                ))}
+                {isLoading
+                  ? Array.from({ length: 10 }, (_, i) => <MainCard key={i} />)
+                  : tracks.slice(9, 19).map((track, index) => (
+                      <div
+                        key={index}
+                        className="p-2 hover:bg-[#1F1F1F] rounded-lg flex flex-col gap-y-2"
+                      >
+                        <div className="bg-white w-[170px] h-[170px]"></div>
+                        <div className="flex flex-col">
+                          <h3 className="text-white font-bold">
+                            {track.trackName}
+                          </h3>
+                          <p className="text-[#AEAEAE]">{track.artistName}</p>
+                        </div>
+                      </div>
+                    ))}
               </div>
               <Topics>Suas músicas estão com saudades</Topics>
               <div className="flex gap-3 overflow-auto scrollbar-none py-3">
-                {Array.from({ length: 15 }, (_, i) => (
-                  <MainCard key={i} />
-                ))}
+                {isLoading
+                  ? Array.from({ length: 10 }, (_, i) => <MainCard key={i} />)
+                  : tracks.slice(20, 30).map((track, index) => (
+                      <div
+                        key={index}
+                        className="p-2 hover:bg-[#1F1F1F] rounded-lg flex flex-col gap-y-2"
+                      >
+                        <div className="bg-white w-[170px] h-[170px]"></div>
+                        <div className="flex flex-col">
+                          <h3 className="text-white font-bold">
+                            {track.trackName}
+                          </h3>
+                          <p className="text-[#AEAEAE]">{track.artistName}</p>
+                        </div>
+                      </div>
+                    ))}
               </div>
               <Topics>Tocados recentemente</Topics>
               <div className="flex gap-3 overflow-auto scrollbar-none py-3">
@@ -166,9 +220,22 @@ export default function Home() {
               </div>
               <Topics>O melhor de cada artista</Topics>
               <div className="flex gap-3 overflow-auto scrollbar-none py-3">
-                {Array.from({ length: 15 }, (_, i) => (
-                  <MainCard key={i} />
-                ))}
+                {isLoading
+                  ? Array.from({ length: 10 }, (_, i) => <MainCard key={i} />)
+                  : tracks.slice(31, 41).map((track, index) => (
+                      <div
+                        key={index}
+                        className="p-2 hover:bg-[#1F1F1F] rounded-lg flex flex-col gap-y-2"
+                      >
+                        <div className="bg-white w-[170px] h-[170px]"></div>
+                        <div className="flex flex-col">
+                          <h3 className="text-white font-bold">
+                            {track.trackName}
+                          </h3>
+                          <p className="text-[#AEAEAE]">{track.artistName}</p>
+                        </div>
+                      </div>
+                    ))}
               </div>
               <Topics>Os maiores hits do momento</Topics>
               <div className="flex gap-3 overflow-auto scrollbar-none py-3">
