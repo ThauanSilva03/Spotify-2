@@ -18,7 +18,6 @@ import {
   SkipBack,
   SkipForward,
   SquarePlay,
-  Volume1,
   X,
 } from "lucide-react";
 import Button from "./components/library/button";
@@ -31,6 +30,7 @@ import Topics from "./components/mainContent/topics";
 import MixCard from "./components/mainContent/mixCard";
 import MainRows from "./components/mainContent/mainRows";
 import Volume from "./components/mainContent/volume";
+import { useRouter } from "next/navigation";
 
 interface Track {
   trackName: string;
@@ -46,6 +46,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [playingNow, setPlayingNow] = useState<Track>();
   const [libraryOpen, setLibraryOpen] = useState(true);
+  const [playPause, setPlayPause] = useState("/mainIcons/playBlack.png");
 
   useEffect(() => {
     const fetchTracksData = async () => {
@@ -105,6 +106,18 @@ export default function Home() {
     };
   }, []);
 
+  const router = useRouter();
+
+  const login = () => {
+    router.push("/login");
+  };
+
+  const pressPlayButton = () => {
+    if (playPause == "/mainIcons/playBlack.png")
+      setPlayPause("/mainIcons/pause.png");
+    else setPlayPause("/mainIcons/playBlack.png");
+  };
+
   return (
     <div className="w-screen h-screen flex flex-col overflow-y-hidden">
       <header className="px-4 flex justify-between py-2 items-center">
@@ -142,7 +155,14 @@ export default function Home() {
             <Bell className="scale-75 text-[#AEAEAE] hover:text-white hover:scale-[.80]" />
           </button>
           <div className="bg-[#19E68C] flex rounded-full w-9 h-9 items-center justify-center">
-            <button className="text-black font-bold text-center">W</button>
+            <button
+              className="text-black font-bold text-center"
+              onClick={() => {
+                login();
+              }}
+            >
+              W
+            </button>
           </div>
         </div>
       </header>
@@ -382,13 +402,13 @@ export default function Home() {
             <button>
               <SkipBack />
             </button>
-            <button className="bg-slate-50 p-2 rounded-full text-black flex items-center justify-center">
-              <Image
-                src="/mainIcons/playBlack.png"
-                alt=""
-                width={14}
-                height={14}
-              />
+            <button
+              className="bg-slate-50 p-2 rounded-full text-black flex items-center justify-center"
+              onClick={() => {
+                pressPlayButton();
+              }}
+            >
+              <Image src={playPause} alt="" width={14} height={14} />
             </button>
             <button>
               <SkipForward />
