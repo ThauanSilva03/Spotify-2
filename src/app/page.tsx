@@ -145,7 +145,7 @@ export default function Home() {
       <div className="flex flex-row w-full gap-2 px-3 pb-20">
         <div
           className={`group relative w-[22%] max-h-[800px] ${
-            !libraryOpen && "w-[110px]"
+            !libraryOpen && "max-w-[110px]"
           } overflow-hidden rounded-lg bg-[#121212] pb-0`}
         >
           <div
@@ -242,8 +242,8 @@ export default function Home() {
                       <MainRows
                         track={track}
                         key={index}
-                        w={170}
-                        h={170}
+                        w={200}
+                        h={200}
                         onClick={() => {
                           setPlayingNow(track);
                         }}
@@ -407,7 +407,9 @@ export default function Home() {
         <div className="w-[15%] h-full flex items-center gap-2">
           <button onClick={() => setShowLeft(!showLeft)}>
             <SquarePlay
-              className={`h-5 w-5 text-[#B3B3B3] hover:text-white hover:scale-105`}
+              className={`h-5 w-5 text-[#B3B3B3] hover:text-white hover:scale-105 ${
+                showLeft ? "text-green-500 hover:text-green-500" : ""
+              }`}
             />
           </button>
           <button className="group">
