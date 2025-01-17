@@ -3,6 +3,7 @@
 import Image from "next/image";
 import CardMusic from "./components/library/cardMusic";
 import {
+  AppWindow,
   ArrowRight,
   Bell,
   Computer,
@@ -10,12 +11,14 @@ import {
   Library,
   ListMusic,
   LucideHouse,
+  Maximize2,
   MicVocal,
   Plus,
   Search,
   SkipBack,
   SkipForward,
   SquarePlay,
+  Volume1,
   X,
 } from "lucide-react";
 import Button from "./components/library/button";
@@ -27,6 +30,7 @@ import MusicDetails from "./components/musicDetails/musicDetails";
 import Topics from "./components/mainContent/topics";
 import MixCard from "./components/mainContent/mixCard";
 import MainRows from "./components/mainContent/mainRows";
+import Volume from "./components/mainContent/volume";
 
 interface Track {
   trackName: string;
@@ -413,13 +417,20 @@ export default function Home() {
             />
           </button>
           <button className="group">
-            <MicVocal className="h-5 w-5 text-[#B3B3B3] hover:text-white hover:scale-105" />
+            <MicVocal className="h-4 w-4 text-[#B3B3B3] hover:text-white hover:scale-105" />
           </button>
           <button>
-            <ListMusic className="h-5 w-5 text-[#B3B3B3] hover:text-white hover:scale-105" />
+            <ListMusic className="h-4 w-4 text-[#B3B3B3] hover:text-white hover:scale-105" />
           </button>
           <button>
-            <Computer className="h-5 w-5 text-[#B3B3B3] hover:text-white hover:scale-105" />
+            <Computer className="h-4 w-4 text-[#B3B3B3] hover:text-white hover:scale-105" />
+          </button>
+          <Volume />
+          <button>
+            <AppWindow className="h-4 w-4 text-[#B3B3B3] hover:text-white hover:scale-105" />
+          </button>
+          <button>
+            <Maximize2 className="h-4 w-4 text-[#B3B3B3] hover:text-white hover:scale-105" />
           </button>
         </div>
       </div>
