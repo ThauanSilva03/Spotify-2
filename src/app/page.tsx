@@ -16,6 +16,7 @@ import {
   SkipBack,
   SkipForward,
   SquarePlay,
+  X,
 } from "lucide-react";
 import Button from "./components/library/button";
 import React, { useState, useRef, useEffect } from "react";
@@ -213,8 +214,8 @@ export default function Home() {
                         className="bg-[#1F1F1F] flex  items-center gap-2 rounded-md text-start hover:bg-[#3a3a3a]"
                       >
                         <div
-                          className={`h-[50px] bg-slate-100 w-[50px] rounded-s-md ${
-                            showLeft ? "" : "w-[70px] h-[70px]"
+                          className={`min-h-[50px] bg-slate-100 min-w-[50px] rounded-s-md ${
+                            showLeft ? "" : "min-w-[70px] min-h-[70px]"
                           }`}
                         >
                           {/* foto da musica */}
@@ -322,7 +323,29 @@ export default function Home() {
           }`}
         >
           <div className="overflow-y-auto scrollbar scrollbar-thumb-white/0 group-hover:scrollbar-thumb-white/70 h-full">
-            <MusicDetails />
+            {playingNow ? (
+              <div>
+                <div className="flex justify-between">
+                  <h2 className="font-bold">{playingNow.trackName}</h2>
+                  <button
+                    onClick={() => {
+                      setShowLeft(!showLeft);
+                    }}
+                  >
+                    <X />
+                  </button>
+                </div>
+                <div className="bg-slate-50 min-w-[400px] min-h-[400px] mt-5 mb-3 rounded-lg">
+                  {/* foto da musica */}
+                </div>
+                <div className="mb-4">
+                  <h1 className="text-lg font-bold">{playingNow.trackName}</h1>
+                  <p>{playingNow.artistName}</p>
+                </div>
+              </div>
+            ) : (
+              <MusicDetails />
+            )}
             <div className="flex flex-col gap-y-4">
               <div className="h-52 w-full bg-[#1F1F1F] text-black rounded-lg"></div>
               <div className="h-80 w-full bg-[#1F1F1F] text-black rounded-lg"></div>
