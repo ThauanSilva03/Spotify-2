@@ -143,7 +143,7 @@ export default function Home() {
       </header>
       <div className="flex flex-row w-full gap-2 px-3 pb-20">
         <div
-          className={`group relative w-[22%] ${
+          className={`group relative w-[22%] max-h-[800px] ${
             !libraryOpen && "w-[110px]"
           } overflow-hidden rounded-lg bg-[#121212] pb-0`}
         >
@@ -183,7 +183,7 @@ export default function Home() {
           </div>
           <div
             ref={scrollRef}
-            className="overflow-y-auto pr-0 scrollbar scrollbar-thumb-transparent group-hover:scrollbar-thumb-[#898989] max-h-[680px]"
+            className="overflow-y-auto pr-0 scrollbar scrollbar-thumb-transparent group-hover:scrollbar-thumb-[#898989] max-h-full"
           >
             {Array.from({ length: 50 }, (_, i) => (
               <CardMusic open={libraryOpen} key={i} />
