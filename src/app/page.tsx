@@ -21,34 +21,65 @@ import Button from "./components/library/button";
 import React, { useState, useRef, useEffect } from "react";
 import MainCard from "./components/mainContent/mainCard";
 import MediumCard from "./components/mainContent/mediumCard";
-// import MixCard from "./components/mainContent/mixCard";
 import PlayingNowCard from "./components/mainContent/playingNowCard";
 import MusicDetails from "./components/musicDetails/musicDetails";
 import Topics from "./components/mainContent/topics";
-import { getTrackAndArtist } from "./lib/fetchTracks";
 import MixCard from "./components/mainContent/mixCard";
+import MainRows from "./components/mainContent/mainRows";
+
+interface Track {
+  trackName: string;
+  artistName: string;
+  duration: string;
+}
 
 export default function Home() {
   const [showLeft, setShowLeft] = useState(false);
   const [hasShadow, setHasShadow] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [tracks, setTracks] = useState<
-    { trackName: string; artistName: string }[]
-  >([]);
+  const [tracks, setTracks] = useState<Track[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [playingNow, setPlayingNow] = useState<Track>();
+  const [libraryOpen, setLibraryOpen] = useState(true);
 
   useEffect(() => {
     const fetchTracksData = async () => {
       setIsLoading(true);
-      const endpoint =
-        "http://ws.audioscrobbler.com/2.0/?method=geo.gettoptracks&country=spain&api_key=d94d36ddf23800c1453b9a06a0c75315&format=json"; // Coloque seu endpoint aqui
-      const tracksData = await getTrackAndArtist(endpoint);
-      setTracks(tracksData);
+
+      const endpoint = `https://ws.audioscrobbler.com/2.0/?method=chart.gettoptracks&limit=50&api_key=d94d36ddf23800c1453b9a06a0c75315&format=json`;
+      const totalPages = 5;
+
+      const allTracks = await fetchAllTracks(endpoint, totalPages);
+
+      setTracks(allTracks);
       setIsLoading(false);
     };
 
     fetchTracksData();
   }, []);
+
+  const fetchAllTracks = async (endpoint: string, totalPages: number) => {
+    const allTracks: {
+      trackName: string;
+      artistName: string;
+      duration: string;
+    }[] = [];
+
+    for (let page = 1; page <= totalPages; page++) {
+      const response = await fetch(`${endpoint}&page=${page}`);
+      const data = await response.json();
+
+      const tracks = data.tracks.track.map((track: any) => ({
+        trackName: track.name,
+        artistName: track.artist.name,
+        duration: track.duration,
+      }));
+
+      allTracks.push(...tracks);
+    }
+
+    return allTracks;
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -111,38 +142,51 @@ export default function Home() {
         </div>
       </header>
       <div className="flex flex-row w-full gap-2 px-3 pb-20">
-        <div className="group relative w-[22%] overflow-hidden rounded-lg bg-[#121212]">
+        <div
+          className={`group relative w-[22%] ${
+            !libraryOpen && "w-[110px]"
+          } overflow-hidden rounded-lg bg-[#121212] pb-0`}
+        >
           <div
             className={`sticky top-0 z-10 w-full max-h-[120px] bg-[#121212] text-[#B3B3B3] px-6 pt-6 pb-3 transition-shadow duration-300 ${
               hasShadow ? "shadow-[0_10px_15px_rgba(0,0,0,0.7)]" : ""
             }`}
           >
             <div className="flex justify-between">
-              <button className="flex hover:text-white">
+              <button
+                className="flex hover:text-white"
+                onClick={() => {
+                  setLibraryOpen(!libraryOpen);
+                }}
+              >
                 <Library className="mr-2" />
-                <h2 className="font-bold">Sua biblioteca</h2>
+                {libraryOpen && <h2 className="font-bold">Sua biblioteca</h2>}
               </button>
-              <div className="flex gap-3 text-[#B3B3B3]">
-                <button className="hover:bg-[#1F1F1F] rounded-full p-1 hover:text-white">
-                  <Plus />
-                </button>
-                <button className="hover:bg-[#1F1F1F] rounded-full p-1 hover:text-white">
-                  <ArrowRight />
-                </button>
+              {libraryOpen && (
+                <div className="flex gap-3 text-[#B3B3B3]">
+                  <button className="hover:bg-[#1F1F1F] rounded-full p-1 hover:text-white">
+                    <Plus />
+                  </button>
+                  <button className="hover:bg-[#1F1F1F] rounded-full p-1 hover:text-white">
+                    <ArrowRight />
+                  </button>
+                </div>
+              )}
+            </div>
+            {libraryOpen && (
+              <div className="pt-4 gap-x-2 flex">
+                <Button>Playlists</Button>
+                <Button>Artistas</Button>
+                <Button>Álbuns</Button>
               </div>
-            </div>
-            <div className="pt-4 gap-x-2 flex">
-              <Button>Playlists</Button>
-              <Button>Artistas</Button>
-              <Button>Álbuns</Button>
-            </div>
+            )}
           </div>
           <div
             ref={scrollRef}
             className="overflow-y-auto pr-0 scrollbar scrollbar-thumb-transparent group-hover:scrollbar-thumb-[#898989] max-h-[680px]"
           >
             {Array.from({ length: 50 }, (_, i) => (
-              <CardMusic key={i} />
+              <CardMusic open={libraryOpen} key={i} />
             ))}
           </div>
         </div>
@@ -154,7 +198,7 @@ export default function Home() {
                 <Button>Música</Button>
                 <Button>Podcasts</Button>
               </div>
-              <div className="grid grid-cols-4 gap-4">
+              <div className="grid grid-cols-4 gap-y-4 gap-x-2">
                 {isLoading
                   ? Array.from({ length: 8 }, (_, i) => (
                       <MixCard
@@ -164,12 +208,27 @@ export default function Home() {
                       />
                     ))
                   : tracks.slice(0, 8).map((track, index) => (
-                      <div key={index} className="bg-[#1F1F1F] p-4 rounded-lg">
-                        <h3 className="text-white font-bold">
-                          {track.trackName}
-                        </h3>
-                        <p className="text-[#AEAEAE]">{track.artistName}</p>
-                      </div>
+                      <button
+                        key={index}
+                        className="bg-[#1F1F1F] flex  items-center gap-2 rounded-md text-start hover:bg-[#3a3a3a]"
+                      >
+                        <div
+                          className={`h-[50px] bg-slate-100 w-[50px] rounded-s-md ${
+                            showLeft ? "" : "w-[70px] h-[70px]"
+                          }`}
+                        >
+                          {/* foto da musica */}
+                        </div>
+                        <div>
+                          <p
+                            className={`text-white ${
+                              showLeft ? "text-xs" : "text-base"
+                            } break-words leading-tight`}
+                          >
+                            {track.trackName}
+                          </p>
+                        </div>
+                      </button>
                     ))}
               </div>
             </div>
@@ -179,18 +238,15 @@ export default function Home() {
                 {isLoading
                   ? Array.from({ length: 10 }, (_, i) => <MainCard key={i} />)
                   : tracks.slice(9, 19).map((track, index) => (
-                      <div
+                      <MainRows
+                        track={track}
                         key={index}
-                        className="p-2 hover:bg-[#1F1F1F] rounded-lg flex flex-col gap-y-2"
-                      >
-                        <div className="bg-white w-[170px] h-[170px]"></div>
-                        <div className="flex flex-col">
-                          <h3 className="text-white font-bold">
-                            {track.trackName}
-                          </h3>
-                          <p className="text-[#AEAEAE]">{track.artistName}</p>
-                        </div>
-                      </div>
+                        w={170}
+                        h={170}
+                        onClick={() => {
+                          setPlayingNow(track);
+                        }}
+                      />
                     ))}
               </div>
               <Topics>Suas músicas estão com saudades</Topics>
@@ -198,50 +254,64 @@ export default function Home() {
                 {isLoading
                   ? Array.from({ length: 10 }, (_, i) => <MainCard key={i} />)
                   : tracks.slice(20, 30).map((track, index) => (
-                      <div
+                      <MainRows
+                        track={track}
                         key={index}
-                        className="p-2 hover:bg-[#1F1F1F] rounded-lg flex flex-col gap-y-2"
-                      >
-                        <div className="bg-white w-[170px] h-[170px]"></div>
-                        <div className="flex flex-col">
-                          <h3 className="text-white font-bold">
-                            {track.trackName}
-                          </h3>
-                          <p className="text-[#AEAEAE]">{track.artistName}</p>
-                        </div>
-                      </div>
+                        w={170}
+                        h={170}
+                        onClick={() => {
+                          setPlayingNow(track);
+                        }}
+                      />
                     ))}
               </div>
               <Topics>Tocados recentemente</Topics>
               <div className="flex gap-3 overflow-auto scrollbar-none py-3">
-                {Array.from({ length: 20 }, (_, i) => (
-                  <MediumCard key={i} />
-                ))}
+                {isLoading
+                  ? Array.from({ length: 20 }, (_, i) => <MediumCard key={i} />)
+                  : tracks.slice(31, 51).map((track, index) => (
+                      <MainRows
+                        track={track}
+                        key={index}
+                        w={120}
+                        h={120}
+                        onClick={() => {
+                          setPlayingNow(track);
+                        }}
+                      />
+                    ))}
               </div>
               <Topics>O melhor de cada artista</Topics>
               <div className="flex gap-3 overflow-auto scrollbar-none py-3">
                 {isLoading
                   ? Array.from({ length: 10 }, (_, i) => <MainCard key={i} />)
-                  : tracks.slice(31, 41).map((track, index) => (
-                      <div
+                  : tracks.slice(52, 62).map((track, index) => (
+                      <MainRows
+                        track={track}
                         key={index}
-                        className="p-2 hover:bg-[#1F1F1F] rounded-lg flex flex-col gap-y-2"
-                      >
-                        <div className="bg-white w-[170px] h-[170px]"></div>
-                        <div className="flex flex-col">
-                          <h3 className="text-white font-bold">
-                            {track.trackName}
-                          </h3>
-                          <p className="text-[#AEAEAE]">{track.artistName}</p>
-                        </div>
-                      </div>
+                        w={170}
+                        h={170}
+                        onClick={() => {
+                          setPlayingNow(track);
+                        }}
+                      />
                     ))}
               </div>
               <Topics>Os maiores hits do momento</Topics>
               <div className="flex gap-3 overflow-auto scrollbar-none py-3">
-                {Array.from({ length: 10 }, (_, i) => (
-                  <MainCard key={i} />
-                ))}
+                {isLoading
+                  ? Array.from({ length: 10 }, (_, i) => <MediumCard key={i} />)
+                  : tracks.slice(63, 73).map((track, index) => (
+                      <MainRows
+                        track={track}
+                        key={index}
+                        w={170}
+                        h={170}
+                        onClick={() => {
+                          setPlayingNow(track);
+                        }}
+                      />
+                    ))}
               </div>
             </div>
           </div>
@@ -264,7 +334,21 @@ export default function Home() {
       </div>
       <div className="fixed bottom-0 bg-[#0A0A0A] left-0 right-0 py-2 px-4 h-20 flex justify-between items-center z-50">
         <div className="w-[15%] h-full flex items-center">
-          <PlayingNowCard />
+          {playingNow ? (
+            <div className="flex items-center gap-y-3">
+              <div className="bg-white min-w-[60px] min-h-[60px] mr-2"></div>
+              <div className="flex flex-col ">
+                <p className="text-white text-[0.70rem] hover:underline hover:cursor-pointer">
+                  {playingNow.trackName}
+                </p>
+                <p className="text-[#AEAEAE] text-[0.65rem] hover:underline hover:text-white hover:cursor-pointer">
+                  {playingNow.artistName}
+                </p>
+              </div>
+            </div>
+          ) : (
+            <PlayingNowCard />
+          )}
         </div>
         <div className="w-[40%] h-full flex flex-col justify-center items-center gap-y-2">
           <div className="flex items-center gap-x-4">
@@ -286,7 +370,15 @@ export default function Home() {
           <div className="w-full flex flex-row items-center gap-x-2">
             <div className="text-xs">0:00</div>
             <div className="bg-slate-50 h-1 rounded-full w-full"></div>
-            <div className="text-xs">3:36</div>
+            <div className="text-xs">
+              {playingNow?.duration
+                ? Math.floor(parseInt(playingNow.duration, 10) / 60) +
+                  ":" +
+                  (parseInt(playingNow.duration, 10) % 60)
+                    .toString()
+                    .padStart(2, "0")
+                : "0:00"}
+            </div>
           </div>
         </div>
         <div className="w-[15%] h-full flex items-center gap-2">

@@ -3,7 +3,11 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { useState } from "react";
 import Image from "next/image";
 
-export default function CardMusic() {
+interface Props {
+  open: boolean;
+}
+
+export default function CardMusic({ open }: Props) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -28,9 +32,11 @@ export default function CardMusic() {
                 </div>
               )}
             </div>
-            <div>
-              <Skeleton width={120} count={2} />
-            </div>
+            {open && (
+              <div>
+                <Skeleton width={120} count={2} />
+              </div>
+            )}
           </div>
         </div>
       </button>
